@@ -11,6 +11,7 @@ RUN apk update \
     && apk add postgresql-dev \
     && apk add libffi-dev \
     && apk add py3-pip py3-pillow py3-cffi gcc py3-brotli pango \
+    && apk add fontconfig \
     && pip install psycopg2
 
 COPY ./requirements.txt .
