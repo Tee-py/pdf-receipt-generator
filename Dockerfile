@@ -20,8 +20,5 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-RUN adduser -D myuser
-USER myuser
-
 RUN python manage.py collectstatic --noinput
 
