@@ -11,7 +11,7 @@ RUN apk update \
     && apk add postgresql-dev \
     && apk add libffi-dev \
     && apk add py3-pip py3-pillow py3-cffi gcc py3-brotli pango \
-    && apk add fontconfig \
+    && apk add fontconfig font-noto terminus-font \
     && pip install psycopg2
 
 COPY ./requirements.txt .
@@ -22,5 +22,6 @@ RUN pip install -r requirements.txt
 COPY . .
 
 RUN python manage.py collectstatic --noinput
+
 
 

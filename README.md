@@ -2,51 +2,39 @@
 
 This is An Online API for Generating Receipts PDF for Payments.
 
-These docs describe how to use the [Gophish](https://getgophish.com) API. We hope you enjoy these docs, and please don't hesitate to [file an issue](https://github.com/gophish/gophish/issues/new) if you see anything missing.
+There is a swagger UI to interact with the API at [Dukka-API](https://dukka-app.herokuapp.com/api/docs/) API.
 
-{% hint style="info" %}
-**Is Python your language of choice?** If so, we have a [fully-supported Python API client](https://docs.getgophish.com/python-api-client/) that makes working with the Gophish API a piece of cake!
-{% endhint %}
 
-## Use Cases
+# API Documentation
 
-There are many reasons to use the Gophish API. The most common use case is to gather report information for a given campaign, so that you can build custom reports in software you're most familiar with, such as Excel or Numbers.
-
-However, automating the creation of campaigns and campaign attributes such as templates, landing pages, and more provides the ability to create a fully automated phishing simulation program. This would allow campaigns to be run throughout the year automatically. This also allows the Gophish administrator to be included in the campaigns, since they wouldn't know exactly which day it would start!
+![Sample Receipt](/recpt.png)
 
 ## Authorization
 
-All API requests require the use of a generated API key. You can find your API key, or generate a new one, by navigating to the /settings endpoint, or clicking the “Settings” sidebar item.
+The API uses JWT Bearer Token For Authenticating Users.
 
-To authenticate an API request, you should provide your API key in the `Authorization` header.
+To authenticate an API request, you should provide your JWT Token in the `Authorization` header. For example
 
-Alternatively, you may append the `api_key=[API_KEY]` as a GET parameter to authorize yourself to the API. But note that this is likely to leave traces in things like your history, if accessing the API through a browser.
-
-```http
-GET /api/campaigns/?api_key=12345678901234567890123456789012
 ```
+{"Authorization": "Bearer <jwt access token>"}
+```
+`access` token expires every `120` minutes and `refresh` token expires every `2 days`.
 
-| Parameter | Type | Description |
-| :--- | :--- | :--- |
-| `api_key` | `string` | **Required**. Your Gophish API key |
+## API Response
 
-## Responses
-
-Many API endpoints return the JSON representation of the resources created or edited. However, if an invalid request is submitted, or some other error occurs, Gophish returns a JSON response in the following format:
-
+The API response is in the following format:
 ```javascript
 {
-  "message" : string,
-  "success" : bool,
-  "data"    : string
+  "status": bool,
+  "message": string,
+  "error_code": integer,
+  "data": json object | dictionary
 }
 ```
-
-The `message` attribute contains a message commonly used to indicate errors or, in the case of deleting a resource, success that the resource was properly deleted.
-
-The `success` attribute describes if the transaction was successful or not.
-
-The `data` attribute contains any other metadata associated with the response. This will be an escaped string containing JSON data.
+- The `success` attribute describes if the api call was successfull or not.
+- The `message` attribute contains a message commonly used to indicate errors or, in the case of deleting a resource, success that the resource - was properly deleted.
+- The `error_code` attribute indicates the type of error if any and it is `null` for a successfull request. `100` represents `validation errors` and `200` represents server errors.
+- The `data` attribute contains any other metadata associated with the response. This will be an escaped string containing JSON data or `null`.
 
 ## Status Codes
 
@@ -59,3 +47,154 @@ Gophish returns the following status codes in its API:
 | 400 | `BAD REQUEST` |
 | 404 | `NOT FOUND` |
 | 500 | `INTERNAL SERVER ERROR` |
+
+## Create User
+
+```http
+POST /api/create_user/
+```
+
+### Authorization: No Auth
+
+| Parameter | Type | Description |
+| :--- | :--- | :--- |
+| `api_key` | `string` | **Required**. Your Gophish API key |
+### Request Body
+
+```javascript
+{
+  "email" : string,
+  "password" : string
+}
+```
+
+## Login
+
+```http
+POST /api/login/
+```
+
+### Authorization: No Auth
+
+### Request Body
+
+```javascript
+{
+  "email" : string,
+  "password" : string
+}
+```
+
+### Response
+
+{
+  "refresh": "string",
+  "access": "string"
+}
+
+## Refresh Token
+
+```http
+POST /api/token/refresh/
+```
+
+### Authorization: No Auth
+
+### Request Body
+
+```javascript
+{
+  "refresh" : string
+}
+```
+
+### Response
+
+{
+  "access": "string"
+}
+
+## Generate Receipt
+
+```http
+POST /api/receipt/
+```
+
+### Authorization: Bearer `JWT TOKEN`
+
+### Request Body
+
+```javascript
+{
+  "company_name": "Dukka Inc",
+  "company_address": "8 Olusegun Aina St, Ikoyi 106104, Lagos, Nigeria.",
+  "customer_name": "Oluwatobi Emmanuel",
+  "customer_email": "tobiloba@gmail.com",
+  "customer_address": "No 20, Ogunlana Drive, Surulere, Lagos, Nigeria.",
+  "customer_mobile": "09034678789",
+  "items": [
+    {
+      "description": "Samsung Buds Live Gold",
+      "quantity": 1,
+      "unit_price": "70000"
+    },
+    {
+      "description": "Samsung S21 Ultra Black",
+      "quantity": 1,
+      "unit_price": "550000"
+    }
+  ]
+}
+```
+
+### Response
+```Javascript
+{
+  "status": true,
+  "error_code": null,
+  "message": "Receipt Generated Successfully",
+  "data": null
+}
+```
+
+## Fetch Receipts
+
+```http
+GET /api/receipt/
+```
+
+### Authorization: Bearer `JWT TOKEN`
+
+### Response
+
+
+### Response
+```Javascript
+{
+  "status": true,
+  "error_code": null,
+  "message": "success",
+  "data": [
+    {
+      "rid": "5F680B12228",
+      "file": "https://res.cloudinary.com/teepy/image/upload/v1/media/receipts/recpt-5F680B12228.pdf",
+      "data": {
+        "company_name": "string",
+        "company_address": "string",
+        "customer_name": "string",
+        "customer_email": "user@example.com",
+        "customer_address": "string",
+        "customer_mobile": "string",
+        "items": [
+          {
+            "description": "string",
+            "quantity": 1,
+            "unit_price": "500"
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
