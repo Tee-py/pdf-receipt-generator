@@ -1,6 +1,12 @@
 from pathlib import Path
 from datetime import timedelta
 import os
+from dotenv import load_dotenv
+
+try:
+    load_dotenv()
+except:
+    pass
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,10 +16,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-uz!38hq(+9tfgl16qaswgwgsk42xg98c*#*bcax7o)9u)f(v39'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (os.getenv("DEBUG") == "TRUE")
 
 ALLOWED_HOSTS = []
 
@@ -145,15 +151,16 @@ STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
+# Only Use Cloudinary On Live
+if not DEBUG:
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'teepy',
-    'API_KEY': '669776671592722',
-    'API_SECRET': 'oxfJWS9xIkA2wG6FFmFCb_zOCJI',
-}
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': os.getenv("CLOUD_NAME"),
+        'API_KEY': os.getenv('CLOUD_API_KEY'),
+        'API_SECRET': os.getenv('CLOUD_API_SECRET'),
+    }
 
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
