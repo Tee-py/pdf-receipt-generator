@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>{{company_name}} | Receipts</title>
+
+		<style>
+			.invoice-box table tr.top table td {
+				padding-bottom: 20px;
+			}
+
+			.invoice-box table tr.top table td.title {
+				font-size: 45px;
+				line-height: 45px;
+				color: #333;
+			}
+
+			.invoice-box table tr.information table td {
+				padding-bottom: 40px;
+			}
+
+			.invoice-box table tr.heading td {
+				background: #eee;
+				border-bottom: 1px solid #ddd;
+				font-weight: bold;
+			}
+
+			.info{
+				display: flex;
+				justify-content: space-between;
+			}
+
+			.invoice-box table tr.details td {
+				padding-bottom: 10px;
+				border-bottom: 1px solid #eee;
+			}
+
+			.invoice-box table tr.item td {
+				border-bottom: 1px solid #eee;
+			}
+
+			.invoice-box table tr.item.last td {
+				border-bottom: none;
+			}
+
+			.invoice-box table tr.total td:nth-child(3) {
+				border-top: 2px solid #eee;
+				font-weight: bold;
+			}
+
+			
+
+			/** RTL **/
+			.invoice-box.rtl {
+				direction: rtl;
+				font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+			}
+
+			.invoice-box.rtl table {
+				text-align: right;
+			}
+
+			.invoice-box.rtl table tr td:nth-child(3) {
+				text-align: right;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="invoice-box" style="max-width: 800px; margin: auto; padding: 30px; border: 1px solid #eee; box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); font-size: 16px; line-height: 24px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #555;">
+			<div class="header" style="text-align: center;">
+				<h1>{{company_name}}</h1>
+				<p>{{company_address}}</p>
+				<h4>Payment Receipt: {{receipt_id}}</h4>
+			</div>
+			<div class="info">
+				<div class="date" style="padding-bottom: 20px; font-weight: 500; font-size: small;">DATE: {{date}}<br /></div>
+				<div class="customer" style="text-align: right; padding-bottom: 20px; font-weight: 500; font-size: small;">
+					{{customer_name}}<br />
+					{{customer_email}}<br />
+					{{customer_mobile}}<br />
+					{{customer_address}}
+				</div>
+			</div>
+			<table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit; text-align: left;">
+				<div class="i-info">
+					<tr class="heading">
+						<td style="padding: 5px; vertical-align: top;">Item</td>
+						<td style="padding: 5px; vertical-align: top;">QTY</td>
+						<td style="padding: 5px; vertical-align: top;">Price</td>
+					</tr>
+					{% for item in items %}
+					<tr class="item">
+						<td style="padding: 5px; vertical-align: top;">{{item.description}}</td>
+						<td style="padding: 5px; vertical-align: top;">{{item.quantity}}</td>
+						<td style="padding: 5px; vertical-align: top;">{{currency}} {{item.unit_price}}</td>
+					</tr>
+					{% endfor %}
+	
+					<!--tr class="item">
+						<td style="padding: 5px; vertical-align: top;">Hosting (3 months)</td>
+						<td style="padding: 5px; vertical-align: top;">1</td>
+						<td style="padding: 5px; vertical-align: top;">$75.00</td>
+					</tr>
+	
+					<tr class="item last">
+						<td style="padding: 5px; vertical-align: top;">Domain name (1 year)</td>
+						<td style="padding: 5px; vertical-align: top;">1</td>
+						<td style="padding: 5px; vertical-align: top;">$10.00</td>
+					</tr-->
+				</div>
+				
+				<div>
+					<tr class="total">
+						<td style="padding: 5px; vertical-align: top;"></td>
+						<td style="padding: 5px; vertical-align: top;"></td>
+						<td style="padding: 5px; vertical-align: top;">Total: {{currency}} {{total}}</td>
+					</tr>
+				</div>
+			</table>
+		</div>
+	</body>
+</html>
