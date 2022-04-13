@@ -3,10 +3,14 @@ from rest_framework.response import Response
 from rest_framework import status
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import serializers
+from rest_framework.decorators import api_view
 from api.models import Receipt
 from .serializers import GenerateReceiptSerializer, ReceiptSerializer, UserSerializer
 from .constants import ErrorCodes
 
+@api_view(['GET'])
+def root(request):
+    return Response({"status": True, "message": "Hello World ✅"})
 
 
 class CreateUserView(APIView):
