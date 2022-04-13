@@ -33,7 +33,7 @@ class CreateUserView(APIView):
 
 @extend_schema(
     responses={
-        200: inline_serializer("Fetch Receipts", {"status": serializers.BooleanField(), "error_code": None, "message": serializers.CharField(), "data": ReceiptSerializer()}), 
+        200: inline_serializer("FetchReceipts", {"status": serializers.BooleanField(), "error_code": None, "message": serializers.CharField(), "data": ReceiptSerializer()}), 
         401: inline_serializer("No Auth", {"detail": serializers.CharField(),})
     },
     methods=["GET"],
@@ -41,9 +41,9 @@ class CreateUserView(APIView):
 @extend_schema(
     request=GenerateReceiptSerializer,
     responses={
-        201: inline_serializer("Receipt Created", {"status": {"status": serializers.BooleanField(), "error_code": None, "message": serializers.CharField(), "data": None}}),
-        400: inline_serializer("Validation Error", {"status": serializers.BooleanField(default=False), "error_code": serializers.IntegerField(default=100), "message": serializers.CharField(), "data": serializers.DictField()}),
-        401: inline_serializer("No Auth", {"detail": serializers.CharField(),})
+        201: inline_serializer("ReceiptCreated", {"status": {"status": serializers.BooleanField(), "error_code": None, "message": serializers.CharField(), "data": None}}),
+        400: inline_serializer("ValidationError", {"status": serializers.BooleanField(default=False), "error_code": serializers.IntegerField(default=100), "message": serializers.CharField(), "data": serializers.DictField()}),
+        401: inline_serializer("NoAuth", {"detail": serializers.CharField(),})
     },
     methods=["POST"]
 )
