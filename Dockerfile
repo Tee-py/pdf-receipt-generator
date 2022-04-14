@@ -6,6 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DEBUG FALSE
 
+
 RUN apk update \
     && apk add --virtual dukka zlib-dev jpeg-dev gcc musl-dev \
     && apk add postgresql-dev \
@@ -22,7 +23,6 @@ RUN pip install -r requirements.txt
 COPY . .
 
 RUN python manage.py collectstatic --noinput
-
 
 
 
