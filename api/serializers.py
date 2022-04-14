@@ -45,6 +45,7 @@ class GenerateReceiptSerializer(serializers.Serializer):
                 pdf = generator.generate_pdf(data)
                 file = FilePDF.objects.create(pdf=pdf)
                 recpt.files.add(file)
+        return recpt
             
 class ReceiptSerializer(serializers.ModelSerializer):
 

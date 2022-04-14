@@ -22,8 +22,7 @@ RUN pip install -r requirements.txt
 COPY . .
 
 RUN python manage.py collectstatic --noinput
-# Only For Local
-CMD gunicorn CORE.wsgi:application --bind 0.0.0.0:$PORT
+
 
 
 

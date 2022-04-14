@@ -62,5 +62,6 @@ class ReceiptView(APIView):
         ser = GenerateReceiptSerializer(data=request.data, context={"request": request})
         if not ser.is_valid():
             return Response({"status": False, "error_code": ErrorCodes.VALIDATION_ERROR.value, "message": "Validation Error", "data": ser.errors}, status.HTTP_400_BAD_REQUEST)
-        ser.save()
-        return Response({"status": True, "error_code": None, "message": "Receipt Generated Successfully", "data": None}, status.HTTP_201_CREATED)
+        recpt = ser.save()
+        link = recpt.files.first().pdf.url
+        return Response({"status": True, "error_code": None, "message": "Receipt Generated Successfully", "data": {"link": link}}, status.HTTP_201_CREATED)
