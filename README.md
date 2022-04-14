@@ -5,6 +5,11 @@ This is An Online API for Generating Receipts PDF for Payments.
 There is a swagger UI to interact with the API at [Dukka-API](https://dukka-app.herokuapp.com/api/docs/) API.
 
 
+# PostMan Documentation
+
+https://documenter.getpostman.com/view/13640451/Uyr4KKeg
+
+
 # API Documentation
 
 ![Sample Receipt](/recpt.png)
