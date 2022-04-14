@@ -6,8 +6,8 @@ There is a swagger UI to interact with the API at [Dukka-API](https://dukka-app.
 
 
 # PostMan Documentation
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/13640451-29b20f7a-1191-43af-8199-58091c2cca7f?action=collection%2Ffork&collection-url=entityId%3D13640451-29b20f7a-1191-43af-8199-58091c2cca7f%26entityType%3Dcollection%26workspaceId%3Dc40e0069-b628-484f-916d-fa4d19fb0139#?env%5BHeroku%5D=W3sia2V5IjoiYmFzZVVybCIsInZhbHVlIjoiaHR0cHM6Ly9kdWtrYS1hcHAuaGVyb2t1YXBwLmNvbS9hcGkiLCJlbmFibGVkIjp0cnVlLCJ0eXBlIjoiZGVmYXVsdCJ9XQ==)
 
-https://documenter.getpostman.com/view/13640451/Uyr4KKeg
 
 
 # API Documentation
@@ -155,10 +155,12 @@ POST /api/receipt/
 ### Response
 ```Javascript
 {
-  "status": true,
-  "error_code": null,
-  "message": "Receipt Generated Successfully",
-  "data": null
+    "status": true,
+    "error_code": null,
+    "message": "Receipt Generated Successfully",
+    "data": {
+        "link": "https://res.cloudinary.com/teepy/image/upload/v1/media/receipts/recpt-2A0FDF26FEF_kolxvo"
+    }
 }
 ```
 
